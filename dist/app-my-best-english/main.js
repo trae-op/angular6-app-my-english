@@ -1566,7 +1566,8 @@ var PopupsService = /** @class */ (function () {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "config", function() { return config; });
 var config = {
-    API_URL: 'http://localhost:8000/api'
+    //API_URL: 'http://localhost:8000/api'
+    API_URL: 'https://app-my-english.herokuapp.com/api'
 };
 
 
