@@ -1,0 +1,16 @@
+
+
+@import "../../theme/mixins";
+@import "../../theme/main";
+
+.card-text.black {
+  background-color: black;
+  color: white;
+  display: table;
+  font-size: 0.8rem;
+  padding: 10px;
+}
+
+.hb {
+  border-top: 5px solid blue;
+}

@@ -1,0 +1,27 @@
+
+  <ng-template #content let-c="close" let-d="dismiss">
+    <forms
+      [type]="'popup'"
+      [close]="c"
+      [dismiss]="d"
+      [title]="titleForm"
+      [dataForm]="fields"
+      (submit)="onSubmit($event)">
+    </forms>
+  </ng-template>
+
+  <h1 class="mt-3 mb-3 h3">{{title}}</h1>
+  <button *ngIf="checkAuthorization() && items && getUser().email === items[0].creator_email" class="btn btn-lg btn-primary rounded-0 col-sm-2 col-lg-auto" (click)="addPopup(content)">Add</button>
+
+    <div class="card mt-2 mb-2 rounded-0" *ngFor="let item of items; let i = index;" [ngClass]="{'hb' : getBorderStatus(item.descriptionEn)}">
+      <div class="card-block">
+        <p class="card-text">{{item.descriptionEn}}</p>
+        <p class="card-text black">{{item.descriptionRus}}</p>
+        <div *ngIf="checkAuthorization() && items && getUser().email === items[0].creator_email">
+          <button type="button" class="btn btn-outline-primary rounded-0" (click)="update(content, item, i)">edit</button>
+          <button type="button" class="btn btn-outline-danger rounded-0" (click)="delete(item._id, i)">delete</button>
+        </div>
+      </div>
+    </div>
+
+  <ngb-pagination *ngIf="paginationOptions.paginationGroup.length > 1" [maxSize]="5" [collectionSize]="paginationOptions.paginationGroup.length * 10" [(page)]="paginationOptions.page" [boundaryLinks]="true" (pageChange)="onPageChange($event)" aria-label="Default pagination"></ngb-pagination>

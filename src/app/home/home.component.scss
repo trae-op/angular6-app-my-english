@@ -1,0 +1,10 @@
+
+@import "../../theme/main";
+@import "../../theme/mixins";
+
+.translations {
+  .card-text {
+    @extend %ellipsis;
+  }
+}
+

@@ -1,0 +1,43 @@
+
+<ng-template #content let-c="close" let-d="dismiss">
+  <forms 
+    [type]="'popup'"
+    [close]="c"
+    [dismiss]="d"
+    [title]="titleForm"
+    [dataForm]="fields"
+    [buttons]="buttons"
+    (submit)="onSubmit($event)">
+  </forms>
+</ng-template>
+
+<header class="fixed-top">
+  <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+    <a class="navbar-brand" routerLink="/">My English</a>
+    <button *ngIf="!checkAuthorization()" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation" (click)="openMobileNavbar()">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div ngbDropdown class="d-inline-block ml-auto" *ngIf="checkAuthorization()">
+      <button class="btn btn-outline-secondary rounded-0" ngbDropdownToggle>
+        <fa name="user" size="lg"></fa> Profile
+      </button>
+      <div class="rounded-0" ngbDropdownMenu aria-labelledby="dropdownBasic1">
+        <button class="dropdown-item">{{getUser().name}}</button>
+        <button class="dropdown-item"><fa name="at" size="lg"></fa> {{getUser().email}}</button>
+        <button class="dropdown-item" (click)="logout()"><fa name="sign-out" size="lg"></fa> logout</button>
+      </div>
+    </div>
+
+    <div class="collapse navbar-collapse" id="navbarText" [ngClass]="{'show': showMobileNavbar}" *ngIf="!checkAuthorization()">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link" [href]="" (click)="login(content)"><fa name="sign-in" size="lg"></fa> Log In</a>
+        </li>
+        <li class="nav-item" *ngIf="!checkAuthorization()">
+          <a class="nav-link" [href]="" (click)="registration(content)"><fa name="registered" size="lg"></fa> Ragister</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</header>

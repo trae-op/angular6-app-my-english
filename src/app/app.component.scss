@@ -1,0 +1,32 @@
+
+//@import "../theme/mixins";
+
+.loader-gif:before {
+  background: url("../assets/img/loader.gif") center no-repeat;
+  background-size: 70%;
+  content: "";
+  display: block;
+  height: 106px;
+  left: 50%;
+  margin-top: -(106/2) + px;
+  margin-left:  -(106/2) + px;
+  opacity: 1;
+  position: absolute;
+  top: 50%;
+  visibility: visible;
+  width: 106px;
+  z-index: 9999;
+}
+
+.loader-gif.hide-loader:before {
+  opacity: 0;
+  visibility: hidden;
+  -moz-transition: visibility 0s, opacity 0.5s ease-out;
+  -o-transition: visibility 0s, opacity 0.5s ease-out;
+  transition: visibility 0s, opacity 0.5s ease-out;
+
+  -webkit-transition-delay: 0.5s;
+  -moz-transition-delay: 0.5s;
+  -o-transition-delay: 0.5s;
+  transition-delay: 0.5s;
+}

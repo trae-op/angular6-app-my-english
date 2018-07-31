@@ -1,0 +1,28 @@
+
+
+
+<ng-template #content let-c="close" let-d="dismiss">
+    <forms
+        [type]="'popup'"
+        [close]="c"
+        [dismiss]="d"
+        [title]="titleForm"
+        [dataForm]="fields"
+        (submit)="onSubmit($event)">
+    </forms>
+</ng-template>
+
+<br />
+
+<button *ngIf="checkAuthorization()" class="btn btn-lg btn-primary rounded-0 mt-1 mb-2 mr-2 col-sm-3 col-lg-auto" (click)="addPopup(content)">Create</button>
+<div *ngIf="checkAuthorization()" class="form-check form-check-inline mb-0">
+    <label>Find Only Mine</label>
+    <input class="ml-2" type="checkbox" (change)="findOnlyMine()" />
+</div>
+
+<div class="card mt-2 rounded-0" *ngFor="let translation of translations; let i = index">
+  <div class="card-block">
+    <h4><a [routerLink]="['/detail/' + translation.titleEn + '/page/' + 1]">{{translation.titleEn}}</a></h4>
+    <p class="card-text">{{translation.descriptionEn}}</p>
+  </div>
+</div>

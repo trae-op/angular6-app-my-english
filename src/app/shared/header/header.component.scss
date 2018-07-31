@@ -1,0 +1,9 @@
+
+.navbar-nav a {
+  cursor: pointer;
+}
+
+.navbar [ngbDropdownMenu] {
+  left: auto !important;
+  right: 0;
+}
