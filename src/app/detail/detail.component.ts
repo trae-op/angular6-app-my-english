@@ -28,13 +28,9 @@ export class DetailComponent {
 
   title: string = this.route.snapshot.params.titleEn;
 
-  items: TranslationsScheme[];
-
+  //items: TranslationsScheme[];
+    items: any;
   pagination: any;
-
-  titleForm: string;
-
-  fields: any;
 
   // data default for "ngb-pagination"
   paginationOptions: any = {
@@ -43,9 +39,9 @@ export class DetailComponent {
     itemsPage: 5
   };
 
-  checkControlPopup: string;
   indexTranslation: number;
   idTranslation: string;
+  fields: any;
 
   ngOnInit() {
 
@@ -106,68 +102,76 @@ export class DetailComponent {
     return this.mainAuthorizationService.getUser();
   }
 
-  onSubmit(data: any) {
-    if (data.filled) {
-      let dataForm = {
-          titleEn: data.title_en,
-          titleRus: data.title_rus,
-          descriptionEn: data.description_en,
-          descriptionRus: data.description_rus,
-          creator_email: this.getUser().email
-      };
-
-      if (this.checkControlPopup === 'update') {
-          dataForm['_id'] = this.idTranslation;
-      }
-
-      this.mainService[this.checkControlPopup]('translations', dataForm)
-          .then(response => {
-            if (this.checkControlPopup === 'post') {
-
-            this.items.push(response);
-
-            this.updatePagination().then( (paginationGroup: any) => {
-              this.items = paginationGroup[paginationGroup.length - 1];
-              this.router.navigate(['/detail/'+this.title+'/page/' + paginationGroup.length]);
-              this.paginationOptions.page = paginationGroup.length;
-            });
-
-          } else {
-            this.items[this.indexTranslation] = response;
-          }
-      });
-    }
-  }
-
   getBorderStatus(text) {
     return text.search(/\<hb\>$/) > 0 ? true : false;
   }
 
-  update(content: any, currentData, index) {
-    this.checkControlPopup = 'update';
-    this.indexTranslation = index;
-    this.idTranslation = currentData._id;
-    this.titleForm = 'Update Translation';
+  update(currentData, index) {
+    let titleForm = 'Update Translation';
 
     this.fields[0].text = currentData.titleEn;
     this.fields[1].text = currentData.titleRus;
     this.fields[2].text = currentData.descriptionEn;
     this.fields[3].text = currentData.descriptionRus;
 
-    this.popupsService.openPopup(content);
+    this.popupsService.openPopup({
+        titleForm,
+        fields: this.fields,
+        submit: (data: any) => {
+            let dataForm = {
+                _id: currentData._id,
+                titleEn: data.title_en,
+                titleRus: data.title_rus,
+                descriptionEn: data.description_en,
+                descriptionRus: data.description_rus,
+                creator_email: this.getUser().email
+            };
+
+            this.mainService.update('translations', dataForm)
+                .then(response => {
+                  this.items[index] = response;
+                });
+
+
+        }
+    });
   }
 
 
-  addPopup(content: any) {
-    this.checkControlPopup = 'post';
-    this.titleForm = 'Add Translation';
+  addPopup() {
+    let titleForm = 'Add Translation';
 
     this.fields[0].text = this.items[0].titleEn;
     this.fields[1].text = this.items[0].titleRus;
     this.fields[2].text = '';
     this.fields[3].text = '';
 
-    this.popupsService.openPopup(content);
+    this.popupsService.openPopup({
+        titleForm,
+        fields: this.fields,
+        submit: (data: any) => {
+            let dataForm = {
+                titleEn: data.title_en,
+                titleRus: data.title_rus,
+                descriptionEn: data.description_en,
+                descriptionRus: data.description_rus,
+                creator_email: this.getUser().email
+            };
+
+            this.mainService.post('translations', dataForm)
+                .then(response => {
+                    this.items.push(response);
+
+                    this.updatePagination().then( (paginationGroup: any) => {
+                        this.items = paginationGroup[paginationGroup.length - 1];
+                        this.router.navigate(['/detail/'+this.title+'/page/' + paginationGroup.length]);
+                        this.paginationOptions.page = paginationGroup.length;
+                    });
+                });
+
+
+        }
+    });
   }
 
   delete(id, index) {

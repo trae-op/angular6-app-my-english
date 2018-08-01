@@ -1,6 +1,6 @@
 
 
-import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'forms',
@@ -17,12 +17,6 @@ export class FormsComponent {
   @Input() dataForm: any;
 
   @Input() title: string;
-
-  @Input() close: any;
-
-  @Input() dismiss: any;
-
-  @Input() type: string;
 
   @Input() buttons: any;
 
@@ -45,13 +39,9 @@ export class FormsComponent {
     }
     return result;
   }
-
-
+  
   onSubmit() {
     this.submit.emit(this.fields);
-    if (this.type === 'popup') {
-      this.close('Close click');
-    }
   }
 
 }

@@ -6,7 +6,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { LocalStorageModule } from 'angular-2-local-storage';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
-import { SocialLoginModule, AuthServiceConfig, GoogleLoginProvider, FacebookLoginProvider } from "angular-6-social-login";
+import { SocialLoginModule, AuthServiceConfig, GoogleLoginProvider, FacebookLoginProvider } from "angular-6-social-login-v2";
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './shared/header/header.component';
@@ -15,7 +15,9 @@ import { DetailComponent } from './detail/detail.component';
 import { FormsComponent } from './shared/forms/forms.component';
 import { PaginationComponent } from './shared/pagination/pagination.component';
 import { PageNotFoundComponent } from './page-not-found.component';
+// Background Model
 import { NgbdModalContent } from './shared/popups/NgbdModalContent.component';
+import { NgbdFormPopupComponent } from './shared/popups/NgbdFormPopup.component';
 
 import { MainService } from './shared/main-service/main.http.service';
 import { MainAuthorizationService } from './shared/main-service/main.authorization.service';
@@ -65,11 +67,14 @@ export function getAuthServiceConfigs() {
     FormsComponent,
     PaginationComponent,
     PageNotFoundComponent,
-      NgbdModalContent
+
+    NgbdModalContent,
+      NgbdFormPopupComponent
   ],
-    // popups without templates
+    // popups without <ng-template>
     entryComponents: [
-        NgbdModalContent
+        NgbdModalContent,
+        NgbdFormPopupComponent
     ],
   providers: [
     {

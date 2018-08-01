@@ -1,15 +1,7 @@
 
 
   <form class="form" (ngSubmit)="onSubmit(); control.reset()" #control="ngForm">
-
-    <div class="modal-header">
-      <h4 class="modal-title">{{title}}</h4>
-      <button *ngIf="type === 'popup'" type="button" class="close" aria-label="Close" (click)="dismiss('Cross click')">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-
-    <div class="modal-body">
+      <h4>{{title}}</h4>
       <div class="form-group" *ngFor="let field of dataForm; let i = index;">
 
         <input *ngIf="field.type === 'checkbox'" [name]="field.name" type="checkbox" class="form-control d-inline-block mr-1" [(ngModel)]="field.text"/>
@@ -27,16 +19,9 @@
         <textarea *ngIf="field.type === 'textarea'" [name]="field.name" class="form-control" [(ngModel)]="field.text" [placeholder]="field.placeholder" [required]="field.required"></textarea>
 
       </div>
-
       <div *ngIf="buttons">
-        <button *ngFor="let btn of buttons;" type="button" class="btn btn-outline-dark mr-1" (click)="btn.handler(close)"><fa name="{{btn.type}}" size="lg"></fa> {{btn.text}}</button>
+        <button *ngFor="let btn of buttons;" type="button" class="btn btn-outline-dark mr-1" (click)="btn.handler()"><fa name="{{btn.type}}" size="lg"></fa> {{btn.text}}</button>
       </div>
-    </div>
-
-    <div class="modal-footer">
-      <button *ngIf="type === 'popup'" type="button" class="btn btn-outline-dark" (click)="close('Close click')">Close</button>
       <button [disabled]="validationCustom(control)" class="btn btn-primary" type="submit">Send</button>
-    </div>
-
   </form>
  

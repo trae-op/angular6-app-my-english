@@ -19,66 +19,27 @@ export class HeaderComponent {
     private mainService: MainService,
     private mainAuthorizationService: MainAuthorizationService) {}
 
-  titleForm: string;
-  fields: any;
-  checkControlPopup: string;
-
-  buttons: any;
 
   showMobileNavbar: boolean;
 
   ngOnInit() {}
 
-openMobileNavbar() {
-  this.showMobileNavbar = this.showMobileNavbar ? this.showMobileNavbar = false : this.showMobileNavbar = true;
-}
-
-    checkAuthorization() {
-      return this.mainAuthorizationService.checkAuthorization();
-    }
-
-    getUser() {
-      return this.mainAuthorizationService.getUser();
-    }
-
-  onSubmit(data: any) {
-    if (data.filled) {
-
-      if (this.checkControlPopup === 'login') {
-        this.mainService.login('users/login', {
-          email: data.email,
-          password: data.password,
-          rememberMe: data.remember_me
-        }).then(response => {
-          console.log('logged!');
-        });
-      }
-
-      if (this.checkControlPopup === 'registration') {
-        this.mainService.post('users', {
-          name: data.name,
-          email: data.email,
-          password: data.password
-        }).then(userResponse => {
-          this.mainService.login('users/login', {
-            email: data.email,
-            password: data.password,
-            rememberMe: true
-          }).then(loginResponse => {
-            console.log('registred!');
-          });          
-        });
-      }
-
-    }
+  openMobileNavbar() {
+    this.showMobileNavbar = this.showMobileNavbar ? this.showMobileNavbar = false : this.showMobileNavbar = true;
   }
 
+  checkAuthorization() {
+    return this.mainAuthorizationService.checkAuthorization();
+  }
 
-  login(content) {
-    this.checkControlPopup = 'login';
-    this.titleForm = 'Log In';
+  getUser() {
+    return this.mainAuthorizationService.getUser();
+  }
+
+  login() {
+    let titleForm = 'Log In';
     
-    this.fields = [
+    let fields = [
       {
         type: 'text',
         name: 'email',
@@ -103,40 +64,54 @@ openMobileNavbar() {
       }
     ];
 
-    this.buttons = [
+    let buttons = [
+        // {
+        //     type: 'google',
+        //     text: 'Connect',
+        //     handler: (activeModal) => {
+        //         this.mainAuthorizationService.socialSignIn('google')
+        //             .then(dataUser => {
+        //                 dataUser['rememberMe'] = true;
+        //                 this.mainService.login('users/login', dataUser)
+        //                     .then(response => {
+        //                         console.log('logged!');
+        //                         activeModal.close('Close click');
+        //                     });
+        //             });
+        //     }
+        // },
       {
         type: 'facebook',
         text: 'Connect',
-        handler: (close) => {
+        handler: (activeModal) => {
           this.mainAuthorizationService.socialSignIn('facebook')
             .then(dataUser => {
               dataUser['rememberMe'] = true;
               this.mainService.login('users/login', dataUser)
                 .then(response => {
                   console.log('logged!');
-                  close('Close click');
+                    activeModal.close('Close click');
                 });
             });
         }
-      },
-        {
-            type: 'google',
-            text: 'Connect',
-            handler: (close) => {
-                this.mainAuthorizationService.socialSignIn('google')
-                    .then(dataUser => {
-                        dataUser['rememberMe'] = true;
-                        this.mainService.login('users/login', dataUser)
-                            .then(response => {
-                                console.log('logged!');
-                                close('Close click');
-                            });
-                    });
-            }
-        }
+      }
+
     ];
 
-    this.popupsService.openPopup(content);
+    this.popupsService.openPopup({
+        titleForm,
+        fields,
+        buttons,
+        submit: (data: any) => {
+            this.mainService.login('users/login', {
+                email: data.email,
+                password: data.password,
+                rememberMe: data.remember_me
+            }).then(response => {
+                console.log('logged!');
+            });
+        }
+    });
   }
 
   logout() {
@@ -145,12 +120,10 @@ openMobileNavbar() {
 
 
 
-  registration(content) {
-    this.checkControlPopup = 'registration';
-    this.titleForm = 'Registration';
-    this.buttons = false;
+  registration() {
+    let titleForm = 'Registration';
 
-    this.fields = [
+    let fields = [
       {
         type: 'text',
         name: 'name',
@@ -181,7 +154,25 @@ openMobileNavbar() {
       }
     ];
 
-    this.popupsService.openPopup(content);
+      this.popupsService.openPopup({
+          titleForm,
+          fields,
+          submit: (data: any) => {
+              this.mainService.post('users', {
+                  name: data.name,
+                  email: data.email,
+                  password: data.password
+              }).then(userResponse => {
+                  this.mainService.login('users/login', {
+                      email: data.email,
+                      password: data.password,
+                      rememberMe: true
+                  }).then(loginResponse => {
+                      console.log('registred!');
+                  });
+              });
+          }
+      });
   }
 
 }

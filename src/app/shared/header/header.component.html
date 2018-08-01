@@ -1,15 +1,4 @@
 
-<ng-template #content let-c="close" let-d="dismiss">
-  <forms 
-    [type]="'popup'"
-    [close]="c"
-    [dismiss]="d"
-    [title]="titleForm"
-    [dataForm]="fields"
-    [buttons]="buttons"
-    (submit)="onSubmit($event)">
-  </forms>
-</ng-template>
 
 <header class="fixed-top">
   <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
@@ -32,10 +21,10 @@
     <div class="collapse navbar-collapse" id="navbarText" [ngClass]="{'show': showMobileNavbar}" *ngIf="!checkAuthorization()">
       <ul class="navbar-nav ml-auto">
         <li class="nav-item">
-          <a class="nav-link" [href]="" (click)="login(content)"><fa name="sign-in" size="lg"></fa> Log In</a>
+          <a class="nav-link" [href]="" (click)="login()"><fa name="sign-in" size="lg"></fa> Log In</a>
         </li>
         <li class="nav-item" *ngIf="!checkAuthorization()">
-          <a class="nav-link" [href]="" (click)="registration(content)"><fa name="registered" size="lg"></fa> Ragister</a>
+          <a class="nav-link" [href]="" (click)="registration()"><fa name="registered" size="lg"></fa> Ragister</a>
         </li>
       </ul>
     </div>

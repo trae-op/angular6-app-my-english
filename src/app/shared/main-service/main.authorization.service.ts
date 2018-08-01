@@ -2,7 +2,7 @@
 
 import { Injectable } from '@angular/core';
 import { LocalStorageService } from 'angular-2-local-storage';
-import {AuthService, FacebookLoginProvider, GoogleLoginProvider} from "angular-6-social-login";
+import {AuthService, FacebookLoginProvider, GoogleLoginProvider} from "angular-6-social-login-v2";
 
 //import { MainService } from './main.http.service';
 
@@ -97,10 +97,7 @@ export class MainAuthorizationService {
         }
         return new Promise(resolve => {
             this.socialAuthService.signIn(socialPlatformProvider)
-                .then(userData => {
-                    resolve(userData);
-                    }
-                );
+                .then(userData => resolve(userData));
         });
 
     }
