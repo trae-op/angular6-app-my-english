@@ -8,9 +8,19 @@
     <input class="ml-2" type="checkbox" (change)="findOnlyMine()" />
 </div>
 
+<div class="card mt-2 rounded-0" *ngIf="!translations.length">
+    <div class="card-block">
+        <p class="card-text">You don't have translations!</p>
+    </div>
+</div>
+
 <div class="card mt-2 rounded-0" *ngFor="let translation of translations; let i = index">
   <div class="card-block">
     <h4><a [routerLink]="['/detail/' + translation.titleEn + '/page/' + 1]">{{translation.titleEn}}</a></h4>
-    <p class="card-text">{{translation.descriptionEn}}</p>
+    <p class="card-text">
+        {{translation.descriptionEn}}
+        <br />
+        <small>Author: <strong><i>{{translation.creator_email}}</i></strong></small>
+    </p>
   </div>
 </div>
