@@ -126,7 +126,9 @@ export class MainService {
     return new Promise(resolve => {
         this.activateLoader = true;
       checkType.catch(dataError => {
-          this.popupsService.openMessage(dataError.error ? dataError.error.message : dataError.message);
+          let checkErrorMessage = (dataError.error && !dataError.error.message) ? dataError.message : dataError.error.message;
+          let checkError = dataError.error ? checkErrorMessage : dataError.message;
+          this.popupsService.openMessage(checkError);
           this.activateLoader = false;
           return throwError(dataError);
       }).subscribe(response => {
