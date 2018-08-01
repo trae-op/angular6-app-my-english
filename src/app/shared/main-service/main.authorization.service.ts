@@ -79,7 +79,6 @@ export class MainAuthorizationService {
             cleanSession() {
                 if (_this.localStorageService.get('NextDayTime')) {
                     if (currentTime > parseInt(_this.localStorageService.get('NextDayTime'))) {
-                        console.log(_this.localStorageService.get('NextDayTime'));
                         _this.clearUserMyself();
                         _this.setToken(false);
                         _this.clearAuthHeaderForAPI();

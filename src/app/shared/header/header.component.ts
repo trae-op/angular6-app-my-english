@@ -118,7 +118,22 @@ openMobileNavbar() {
                 });
             });
         }
-      }
+      },
+        {
+            type: 'google',
+            text: 'Connect',
+            handler: (close) => {
+                this.mainAuthorizationService.socialSignIn('google')
+                    .then(dataUser => {
+                        dataUser['rememberMe'] = true;
+                        this.mainService.login('users/login', dataUser)
+                            .then(response => {
+                                console.log('logged!');
+                                close('Close click');
+                            });
+                    });
+            }
+        }
     ];
 
     this.popupsService.openPopup(content);
@@ -133,6 +148,7 @@ openMobileNavbar() {
   registration(content) {
     this.checkControlPopup = 'registration';
     this.titleForm = 'Registration';
+    this.buttons = false;
 
     this.fields = [
       {

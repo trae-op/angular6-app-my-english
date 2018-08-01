@@ -2,7 +2,7 @@
 
 import { Injectable } from '@angular/core';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
-
+import { NgbdModalContent } from './NgbdModalContent.component';
 
 // for adding other services 
 @Injectable()
@@ -19,6 +19,11 @@ export class PopupsService {
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
     });
+  }
+
+  openMessage(message) {
+      const modalRef = this.modalService.open(NgbdModalContent);
+      modalRef.componentInstance.message = message;
   }
 
   private getDismissReason(reason: any): string {

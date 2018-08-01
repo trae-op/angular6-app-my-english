@@ -7,3 +7,4 @@ npm-debug.log
 sftp-config.json
 node_modules
 sandbox
+dist

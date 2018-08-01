@@ -9,6 +9,7 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
 
 import { MainAuthorizationService } from './main.authorization.service';
+import { PopupsService } from '../popups/popups.service';
 import { config } from '../../../config';
 
 // for adding other services 
@@ -18,7 +19,8 @@ export class MainService {
 
   constructor(
     private httpClient: HttpClient,
-    private mainAuthService: MainAuthorizationService
+    private mainAuthService: MainAuthorizationService,
+    private popupsService: PopupsService
   ) {}
   
   cacheData: any = {};
@@ -123,9 +125,10 @@ export class MainService {
 
     return new Promise(resolve => {
         this.activateLoader = true;
-      checkType.catch(error => {
+      checkType.catch(dataError => {
+          this.popupsService.openMessage(dataError.error ? dataError.error.message : dataError.message);
           this.activateLoader = false;
-          return throwError(error);
+          return throwError(dataError);
       }).subscribe(response => {
           this.activateLoader = false;
           resolve(response);

@@ -15,6 +15,7 @@ import { DetailComponent } from './detail/detail.component';
 import { FormsComponent } from './shared/forms/forms.component';
 import { PaginationComponent } from './shared/pagination/pagination.component';
 import { PageNotFoundComponent } from './page-not-found.component';
+import { NgbdModalContent } from './shared/popups/NgbdModalContent.component';
 
 import { MainService } from './shared/main-service/main.http.service';
 import { MainAuthorizationService } from './shared/main-service/main.authorization.service';
@@ -35,7 +36,7 @@ export function getAuthServiceConfigs() {
             },
             {
                 id: GoogleLoginProvider.PROVIDER_ID,
-                provider: new GoogleLoginProvider("607355219083-p7ven3qhii2kijmd1utei3h260ph8dk7.apps.googleusercontent.com")
+                provider: new GoogleLoginProvider("607355219083-f7jms1d61qqou9jp0i2lccb63ah7c6h6.apps.googleusercontent.com")
             }
         ]
 );
@@ -63,8 +64,13 @@ export function getAuthServiceConfigs() {
     DetailComponent,
     FormsComponent,
     PaginationComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+      NgbdModalContent
   ],
+    // popups without templates
+    entryComponents: [
+        NgbdModalContent
+    ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,

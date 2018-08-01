@@ -29,7 +29,7 @@
       </div>
 
       <div *ngIf="buttons">
-        <button *ngFor="let btn of buttons;" type="button" class="btn btn-outline-dark" (click)="btn.handler(close)"><fa name="{{btn.type}}" size="lg"></fa> {{btn.text}}</button>
+        <button *ngFor="let btn of buttons;" type="button" class="btn btn-outline-dark mr-1" (click)="btn.handler(close)"><fa name="{{btn.type}}" size="lg"></fa> {{btn.text}}</button>
       </div>
     </div>
 
