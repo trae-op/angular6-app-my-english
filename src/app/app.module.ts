@@ -57,7 +57,7 @@ export function getAuthServiceConfigs() {
       storageType: 'localStorage'
     }),
     NgbModule.forRoot(),
-    RouterModule.forRoot(ROUTES)
+    RouterModule.forRoot(ROUTES, { useHash: true })
   ],
   declarations: [
     AppComponent,
