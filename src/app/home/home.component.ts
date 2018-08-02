@@ -26,12 +26,18 @@ export class HomeComponent {
   ) {}
 
   translations: TranslationsScheme[];
+  getShowMine: boolean = false;
 
     ngOnInit() {
         this.mainService.get('translations').then(response => {
           this.translations = _.unionBy(response, 'titleEn');
+          if (this.checkAuthorization() && this.getShowMine) {
+              this.findOnlyMine();
+              this.getShowMine = this.homeService.showMine;
+          }
         });
     }
+
 
     findOnlyMine() {
       this.homeService.findOnlyMine().then(result => this.translations = result);
@@ -39,6 +45,10 @@ export class HomeComponent {
 
     getUser() {
       return this.mainAuthorizationService.getUser();
+    }
+
+    checkAuthorization() {
+        return this.mainAuthorizationService.checkAuthorization();
     }
 
     addPopup() {
@@ -92,10 +102,6 @@ export class HomeComponent {
                 }
             }
         });
-    }
-
-    checkAuthorization() {
-      return this.mainAuthorizationService.checkAuthorization();
     }
 
 }
