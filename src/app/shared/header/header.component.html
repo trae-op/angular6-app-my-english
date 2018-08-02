@@ -14,7 +14,8 @@
       <div class="rounded-0" ngbDropdownMenu aria-labelledby="dropdownBasic1">
         <button class="dropdown-item"><fa name="user" size="lg"></fa> {{getUser().name}}</button>
         <button class="dropdown-item"><fa name="at" size="lg"></fa> {{getUser().email}}</button>
-        <button class="dropdown-item" (click)="logout()"><fa name="sign-out" size="lg"></fa> logout</button>
+        <button *ngIf="getUser().role === 'Admin'" class="dropdown-item"><a class="nav-link p-0 text-dark" routerLink="/users"><fa name="users" size="lg"></fa> users</a></button>
+        <button class="dropdown-item cursor-pointer" (click)="logout()"><fa name="sign-out" size="lg"></fa> logout</button>
       </div>
     </div>
 

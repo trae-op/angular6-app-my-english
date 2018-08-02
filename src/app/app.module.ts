@@ -15,6 +15,7 @@ import { DetailComponent } from './detail/detail.component';
 import { FormsComponent } from './shared/forms/forms.component';
 import { PaginationComponent } from './shared/pagination/pagination.component';
 import { PageNotFoundComponent } from './page-not-found.component';
+import { UsersComponent } from './users/users.component';
 // Background Model
 import { NgbdModalContent } from './shared/popups/NgbdModalContent.component';
 import { NgbdFormPopupComponent } from './shared/popups/NgbdFormPopup.component';
@@ -67,9 +68,11 @@ export function getAuthServiceConfigs() {
     FormsComponent,
     PaginationComponent,
     PageNotFoundComponent,
+    UsersComponent,
 
+      // Background Model
     NgbdModalContent,
-      NgbdFormPopupComponent
+    NgbdFormPopupComponent
   ],
     // popups without <ng-template>
     entryComponents: [

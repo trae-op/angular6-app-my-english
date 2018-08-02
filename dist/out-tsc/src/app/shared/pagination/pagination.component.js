@@ -37,7 +37,7 @@ var PaginationComponent = /** @class */ (function () {
         core_1.Component({
             selector: 'pagination',
             templateUrl: './pagination.component.html'
-            //styleUrls: ['./home.component.scss']
+            //styleUrls: ['./users.component.scss']
         }),
         __metadata("design:paramtypes", [router_1.ActivatedRoute,
             pagination_service_1.PaginationService])

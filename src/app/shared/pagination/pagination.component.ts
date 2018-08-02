@@ -6,7 +6,7 @@ import { PaginationService } from './pagination.service';
 @Component({
   selector: 'pagination',
   templateUrl: './pagination.component.html'
-  //styleUrls: ['./home.component.scss']
+  //styleUrls: ['./users.component.scss']
 })
 
 export class PaginationComponent {

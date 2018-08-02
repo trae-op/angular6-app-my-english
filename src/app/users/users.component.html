@@ -1,0 +1,17 @@
+
+
+<br />
+
+<div class="card mt-2 rounded-0" *ngIf="users && !users.length">
+    <div class="card-block">
+        <p class="card-text">There aren't users!</p>
+    </div>
+</div>
+
+<div class="card mt-2 rounded-0" *ngFor="let user of users; let i = index">
+  <div class="card-block">
+    <h4>{{user.name}}</h4>
+    <p class="card-text">Email: <strong>{{user.email}}</strong></p>
+    <p class="card-text">Date: <strong>{{user.created_at}}</strong></p>
+  </div>
+</div>
