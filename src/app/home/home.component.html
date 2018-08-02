@@ -4,10 +4,8 @@
 
 <button *ngIf="checkAuthorization()" class="btn btn-lg btn-primary rounded-0 mt-1 mb-2 mr-2 col-sm-3 col-lg-auto" (click)="addPopup()">Create</button>
 <div *ngIf="checkAuthorization()" class="form-check form-check-inline mb-0">
-    <form class="form" #contactsForm="ngForm">
     <label>Find Only Mine</label>
-    <input class="ml-2" type="checkbox" (change)="findOnlyMine()" name="getShowMine" [(ngModel)]="getShowMine" />
-    </form>
+    <input class="ml-2" type="checkbox" (change)="findOnlyMine()" />
 </div>
 
 <div class="card mt-2 rounded-0" *ngIf="translations && !translations.length">

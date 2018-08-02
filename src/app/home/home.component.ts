@@ -26,14 +26,12 @@ export class HomeComponent {
   ) {}
 
   translations: TranslationsScheme[];
-  getShowMine: boolean = false;
 
     ngOnInit() {
         this.mainService.get('translations').then(response => {
           this.translations = _.unionBy(response, 'titleEn');
-          if (this.checkAuthorization() && this.getShowMine) {
+          if (this.checkAuthorization() && this.homeService.showMine) {
               this.findOnlyMine();
-              this.getShowMine = this.homeService.showMine;
           }
         });
     }
