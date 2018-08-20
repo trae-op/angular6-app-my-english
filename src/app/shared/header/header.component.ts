@@ -108,7 +108,7 @@ export class HeaderComponent {
                 password: data.password,
                 rememberMe: data.remember_me
             }).then(response => {
-                console.log('logged!');
+                console.log('You enter to the account own!');
             });
         }
     });
@@ -161,7 +161,8 @@ export class HeaderComponent {
               this.mainService.post('users', {
                   name: data.name,
                   email: data.email,
-                  password: data.password
+                  password: data.password,
+                  confirm_password: data.confirm_password
               }).then(userResponse => {
                   this.mainService.login('users/login', {
                       email: data.email,

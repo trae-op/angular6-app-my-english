@@ -7,7 +7,7 @@
       <div class="card-block">
         <p class="card-text">{{item.descriptionEn}}</p>
         <p class="card-text black">{{item.descriptionRus}}</p>
-        <div *ngIf="checkAuthorization() && items && getUser().email === items[0].creator_email">
+        <div *ngIf="checkAuthorization() && items && getUser().email === items[0].creator_email || checkAuthorization() && items && getUser().role === 'Admin'">
           <button type="button" class="btn btn-outline-primary rounded-0" (click)="update(item, i)">edit</button>
           <button type="button" class="btn btn-outline-danger rounded-0" (click)="delete(item._id, i)">delete</button>
         </div>

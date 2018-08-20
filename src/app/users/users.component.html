@@ -13,5 +13,8 @@
     <h4>{{user.name}}</h4>
     <p class="card-text">Email: <strong>{{user.email}}</strong></p>
     <p class="card-text">Date: <strong>{{user.created_at}}</strong></p>
+    <div *ngIf="checkAuthorization() && users && getUser().role === 'Admin'">
+      <button type="button" class="btn btn-outline-danger rounded-0" (click)="delete(user, i)">delete</button>
+    </div>
   </div>
 </div>
