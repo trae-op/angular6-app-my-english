@@ -6,7 +6,6 @@ import _ from 'lodash';
 
 import { throwError } from 'rxjs';
 import 'rxjs/add/operator/catch';
-import 'rxjs/add/observable/throw';
 
 import { MainAuthorizationService } from './main.authorization.service';
 import { PopupsService } from '../popups/popups.service';
@@ -111,7 +110,7 @@ export class MainService {
   }
 
   findByValue(value, prop, collection) {
-    return _.filter(collection, JSON.parse('{"' + prop + '":"' + value + '"}'));
+    return _.filter(collection, JSON.parse(`{"${prop}":"${value}"}`));
   }
 
   private mainRequest(typeRequest, options): Promise<any> {
@@ -119,9 +118,9 @@ export class MainService {
       observe: 'body',
       responseType: 'json'
     };
-    let checkType = (options.length > 1)
-      ? this.httpClient[typeRequest](options[0], options[1], httpClientOptions)
-      : this.httpClient[typeRequest](options[0], httpClientOptions);
+    let additionalParams = this.httpClient[typeRequest](options[0], options[1], httpClientOptions);
+    let withoutAdditionalParams = this.httpClient[typeRequest](options[0], httpClientOptions);
+    let checkType = (options.length > 1) ? additionalParams : withoutAdditionalParams;
 
     return new Promise(resolve => {
         this.activateLoader = true;
