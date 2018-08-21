@@ -5,6 +5,8 @@ import { HttpClient } from '@angular/common/http';
 import _ from 'lodash';
 
 import { throwError } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/catch';
 
 import { MainAuthorizationService } from './main.authorization.service';
@@ -29,7 +31,7 @@ export class MainService {
   get(nameRequest) {
     return new Promise(resolve => {
         if (!this.cacheData[nameRequest]) {
-          this.mainRequest('get', [this.mainUrl() + nameRequest]).then(response => {
+          this.mainRequest('get', [this.mainUrl() + nameRequest]).subscribe(response => {
             this.cacheData[nameRequest] = response;
               resolve(response);
           });       
@@ -41,7 +43,7 @@ export class MainService {
 
   post(nameRequest, data) {
       return new Promise(resolve => {
-          this.mainRequest('post', [this.mainUrl() + nameRequest, data]).then(response => {
+          this.mainRequest('post', [this.mainUrl() + nameRequest, data]).subscribe(response => {
               if (this.cacheData[nameRequest]) {
                   this.cacheData[nameRequest].push(response);
               } else {
@@ -54,7 +56,7 @@ export class MainService {
 
   update(nameRequest, data) {
       return new Promise(resolve => {
-        this.mainRequest('put', [this.mainUrl() + nameRequest, data]).then(response => {
+        this.mainRequest('put', [this.mainUrl() + nameRequest, data]).subscribe(response => {
           this.cacheData[nameRequest][this.cacheIndex(nameRequest, { _id: response._id })] = response;
           resolve(response);
         });
@@ -70,7 +72,7 @@ export class MainService {
         this.mainAuthService.checkRememberMe(data.rememberMe);
           delete data.rememberMe;
 
-        this.mainRequest('post', [this.mainUrl() + nameRequest, data]).then(response => {
+        this.mainRequest('post', [this.mainUrl() + nameRequest, data]).subscribe(response => {
           this.mainAuthService.setToken(response.token);
           this.mainAuthService.addAuthHeaderForAPI(response.token);
           this.mainAuthService.setUserMyself(response.user);
@@ -90,7 +92,7 @@ export class MainService {
 
   deleteById(nameRequest, id) {
     return new Promise(resolve => {
-      this.mainRequest('delete', [this.mainUrl() + nameRequest + '/' + id]).then(response => {
+      this.mainRequest('delete', [this.mainUrl() + nameRequest + '/' + id]).subscribe(response => {
         this.cacheData[nameRequest].splice(this.cacheIndex(nameRequest, { _id: id }), 1);
           resolve(response);
       });
@@ -107,13 +109,15 @@ export class MainService {
     return new Promise(resolve => {
       this.get(nameRequest).then(response => resolve(this.findByValue(email, 'creator_email', response)));
     });
+
+
   }
 
   findByValue(value, prop, collection) {
     return _.filter(collection, JSON.parse(`{"${prop}":"${value}"}`));
   }
 
-  private mainRequest(typeRequest, options): Promise<any> {
+  private mainRequest(typeRequest, options): Observable<any> {
     let httpClientOptions = {
       observe: 'body',
       responseType: 'json'
@@ -122,19 +126,16 @@ export class MainService {
     let withoutAdditionalParams = this.httpClient[typeRequest](options[0], httpClientOptions);
     let checkType = (options.length > 1) ? additionalParams : withoutAdditionalParams;
 
-    return new Promise(resolve => {
-        this.activateLoader = true;
-      checkType.catch(dataError => {
-          let checkErrorMessage = (dataError.error && !dataError.error.message) ? dataError.message : dataError.error.message;
-          let checkError = dataError.error ? checkErrorMessage : dataError.message;
-          this.popupsService.openMessage(checkError);
-          this.activateLoader = false;
-          return throwError(dataError);
-      }).subscribe(response => {
-          this.activateLoader = false;
-          resolve(response);
-      });
-    });
+      this.activateLoader = true;
+      return checkType
+        .do(() => this.activateLoader = false)
+        .catch(dataError => {
+            let checkErrorMessage = (dataError.error && !dataError.error.message) ? dataError.message : dataError.error.message;
+            let checkError = dataError.error ? checkErrorMessage : dataError.message;
+            this.popupsService.openMessage(checkError);
+            this.activateLoader = false;
+            return throwError(dataError);
+        });
   }
 
   private cacheIndex(name, data) {
