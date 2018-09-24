@@ -11,7 +11,7 @@ import 'rxjs/add/operator/catch';
 
 import { MainAuthorizationService } from './main.authorization.service';
 import { PopupsService } from '../popups/popups.service';
-import { config } from '../../../config';
+import { environment } from '../../../environments/environment';
 
 // for adding other services 
 @Injectable()
@@ -84,7 +84,7 @@ export class MainService {
 
   logout () {
     this.cacheDataFirstOnly = this.cacheData;
-    this.cacheData = {};
+    //this.cacheData = {};
     this.mainAuthService.clearUserMyself();
     this.mainAuthService.setToken(false);
     this.mainAuthService.clearAuthHeaderForAPI();
@@ -94,7 +94,7 @@ export class MainService {
     return new Promise(resolve => {
       this.mainRequest('delete', [this.mainUrl() + nameRequest + '/' + id]).subscribe(response => {
         this.cacheData[nameRequest].splice(this.cacheIndex(nameRequest, { _id: id }), 1);
-          resolve(response);
+        resolve(response);
       });
     });
   }
@@ -105,7 +105,7 @@ export class MainService {
     });
   }
 
-  getByEmail(nameRequest, email) {
+   getByEmail(nameRequest, email) {
     return new Promise(resolve => {
       this.get(nameRequest).then(response => resolve(this.findByValue(email, 'creator_email', response)));
     });
@@ -143,7 +143,7 @@ export class MainService {
   }   
 
   private mainUrl() {
-    return config.API_URL + '/';
+    return environment.host + environment.api;
   }
 
 }

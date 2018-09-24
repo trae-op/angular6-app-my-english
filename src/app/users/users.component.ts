@@ -23,9 +23,7 @@ export class UsersComponent {
   users: any;
 
     ngOnInit() {
-        this.mainService.get('users').then(response => {
-          this.users = response;
-        });
+        this.mainService.get('users').then(response => this.users = response);
     }
 
     checkAuthorization() {
@@ -53,9 +51,8 @@ export class UsersComponent {
               At first you should be remove all translations and retry delete user again
           `);
         } else {
-          this.mainService.deleteById('users', user._id).then(response => {
-            this.users.splice(index, 1);
-          });
+            //this.users.splice(index, 1);
+            this.mainService.deleteById('users', user._id).then(response => console.log('User was deleted!'));
         }
     }
 }

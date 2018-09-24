@@ -124,7 +124,7 @@ export class DetailComponent {
                 titleRus: data.title_rus,
                 descriptionEn: data.description_en,
                 descriptionRus: data.description_rus,
-                creator_email: this.getUser().email
+                creator_email: ( this.getUser().email === currentData.creator_email ) ? this.getUser().email : currentData.creator_email
             };
 
             this.mainService.update('translations', dataForm)
