@@ -48,7 +48,7 @@ export class HeaderComponent {
         required: true
       },
       {
-        type: 'text',
+        type: 'password',
         name: 'password',
         placeholder: 'password',
         text: '',
